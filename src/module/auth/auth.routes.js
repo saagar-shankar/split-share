@@ -9,6 +9,7 @@ import authenticate from "../auth/auth.middleware.js";
 import SearchDto from "./dto/search-user.dto.js";
 
 const router = Router();
+
 // register route
 router.post("/register", validate(RegisterDto), controller.register);
 // login route

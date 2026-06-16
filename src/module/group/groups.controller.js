@@ -46,17 +46,4 @@ const deleteGroup = async (req, res) => {
   ApiResponse.ok(res, "Group Deleted Successfully");
 };
 
-// FETCHGROUPS
-// const fetchGroups = async (req, res) => {
-//   const groups = await groupService.findAllGroups();
-//   ApiResponse.ok(res, "All the groups that exist in the System!", groups);
-// };
-
-export {
-  createGroup,
-  addMembers,
-  getGroups,
-  getGroupById,
-  deleteGroup,
-  // fetchGroups,
-};
+export { createGroup, addMembers, getGroups, getGroupById, deleteGroup };

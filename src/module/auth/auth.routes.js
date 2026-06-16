@@ -28,10 +28,11 @@ router.put(
   controller.resetPassword,
 );
 // get testing route
-router.get("/testing", (req, res) => {
-  console.log("Testing routed hit...");
-  return res.status(200).json({ message: "Route is working" });
-});
+// router.get("/testing", (req, res) => {
+//   console.log("Testing routed hit...");
+//   return res.status(200).json({ message: "Route is working" });
+// });
+
 // verify email
 router.get("/verify-email/:token", controller.verifyEmail);
 // get profile route
@@ -49,6 +50,5 @@ router.get(
 
 // get all users
 router.get("/", authenticate, controller.getUsers);
-
 
 export default router;

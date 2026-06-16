@@ -10,7 +10,7 @@ const authenticate = async (req, res, next) => {
   } else if (req.cookies?.accessToken) {
     token = req.cookies.accessToken;
   }
-  console.log("Authorization----------->:", req.headers.authorization);
+  // console.log("Authorization----------->:", req.headers.authorization);
   // console.log("Cookies-------->:", req.cookies);
   if (!token) throw ApiError.notFound("Not Authenticated. Please Login");
 

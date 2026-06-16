@@ -122,9 +122,9 @@ const refreshTokenService = async (token) => {
     throw ApiError.unauthorize("User not found");
   }
   // LOGS FOR REFERENCE
-  console.log("Incoming Refresh Token:\n", token);
-  console.log("Incoming Hash:\n", hashToken(token));
-  console.log("DB Hash:\n", user.refreshToken);
+  // console.log("Incoming Refresh Token:\n", token);
+  // console.log("Incoming Hash:\n", hashToken(token));
+  // console.log("DB Hash:\n", user.refreshToken);
   // check if refresh token matches our hashed refreshToken(in DB)
   if (user.refreshToken !== hashToken(token)) {
     throw ApiError.unauthorize("Invalid Refresh Token");
@@ -157,16 +157,6 @@ const refreshTokenService = async (token) => {
 // lets write logout service
 const logoutService = async (userId) => {
   await User.findByIdAndUpdate(userId, { refreshToken: null });
-  // // first find the user
-  // const user = await User.findById(userId);
-  // if (!user) {
-  //   throw ApiError.unauthorize("User Not Found");
-  // }
-  // // remove refreshToken
-  // user.refreshToken = undefined;
-  // await user.save({ validateBeforeSave: false });
-
-  // using null means field will exist just the value will be null
 };
 
 // LETS WRITE FORGOT PASSWORD SERVICE
@@ -183,7 +173,6 @@ const forgetPasswordService = async (email) => {
 
   await user.save({ validateBeforeSave: false });
 
-  // TODO: dont know how to send rawToken in email but we will implement it later
   try {
     await sendResetPasswordEmail(email, rawToken);
   } catch (err) {
@@ -234,7 +223,7 @@ const getMe = async (userId) => {
 // verify Email
 // verify token k behalf pe hoga
 const verifyEmail = async (token) => {
-  console.log("Verify email route hit");
+  // console.log("Verify email route hit");
   const hashedToken = hashToken(token);
   const user = await User.findOne({
     verificationToken: hashedToken,
@@ -277,7 +266,7 @@ const searchUserService = async (query) => {
 
 // get all the user service later to be deleted to maintain privacy
 const getAllUsers = async (userId) => {
-  console.log("***** GET ALL USERS ROUTE HIT *****\n");
+  // console.log("***** GET ALL USERS ROUTE HIT *****\n");
   const users = await User.find({}).select("name email");
 
   return users;

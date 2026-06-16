@@ -6,7 +6,7 @@ import cookie from "cookie-parser";
 
 const register = async (req, res) => {
   const user = await authService.registerUser(req.body);
-  console.log("Register URL hit");
+  // console.log("Register URL hit");
   return ApiResponse.created(res, "User created successfully!", user);
 };
 
@@ -18,7 +18,7 @@ const register = async (req, res) => {
 // };
 
 const login = async (req, res) => {
-  console.log("*******Login Route Hit**********");
+  // console.log("*******Login Route Hit**********");
   const { user, accessToken, refreshToken } = await authService.loginUser(
     req.body,
   );
@@ -42,7 +42,7 @@ const login = async (req, res) => {
 
 // LOGOUT
 const logout = async (req, res) => {
-  console.log("**********Logout Route hit**********\n");
+  // console.log("**********Logout Route hit**********\n");
   const user = await authService.logoutService(req.user.id);
 
   res.clearCookie("accessToken");
@@ -75,13 +75,6 @@ const resetPassword = async (req, res) => {
   ApiResponse.ok(res, "Password updated successfully", user);
 };
 
-// const refresh = async (req, res) => {
-//   // const token = req.params?.refreshToken;
-//   const token = req.cookies.refreshToken;
-//   const user = await authService.refreshTokenService(token);
-//   ApiResponse.ok(res, "Token Refreshed", user);
-// };
-
 const refresh = async (req, res) => {
   const token = req.cookies.refreshToken;
 
@@ -105,7 +98,7 @@ const refresh = async (req, res) => {
 
 // SEARCH USERS controller
 const search = async (req, res) => {
-  console.log("******SEARCH ROUTE HIT******\n");
+  // console.log("******SEARCH ROUTE HIT******\n");
   const { query } = req.query;
   const users = await authService.searchUserService(query);
   ApiResponse.ok(res, "User Found", users);
@@ -113,7 +106,7 @@ const search = async (req, res) => {
 
 // get all user created 12-6-2026 later to be deleted for privacy
 const getUsers = async (req, res) => {
-  console.log("****** Get All user ROUTE HIT ******\n");
+  // console.log("****** Get All user ROUTE HIT ******\n");
   const users = await authService.getAllUsers();
   ApiResponse.ok(res, "Users Exist in the System now", users);
 };

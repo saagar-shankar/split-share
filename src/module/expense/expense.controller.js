@@ -23,7 +23,7 @@ const findExpense = async (req, res) => {
 
 // controller for settlement
 const settlements = async (req, res) => {
-  console.log("****************Settlement Route Hit****************\n");
+  // console.log("****************Settlement Route Hit****************\n");
   const settledGroup = await expenseService.settlementService(
     req.params.groupId,
     req.user.id,

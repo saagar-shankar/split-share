@@ -20,14 +20,6 @@ const sendEmail = async (to, subject, html) => {
   });
 };
 
-// const sendVerificationEmail = async (email, token) => {
-//   const url = `${process.env.CLIENT_URL}/verify-email/${token}`;
-//   await sendEmail(
-//     email,
-//     "Verify your email",
-//     `<h2>Welcome!</h2><p>Click <a href="${url}">here</a> to verify your email.</p>`,
-//   );
-// };
 const sendVerificationEmail = async (email, token) => {
   const url = `${process.env.CLIENT_URL}/verify-email/${token}`;
   await sendEmail(

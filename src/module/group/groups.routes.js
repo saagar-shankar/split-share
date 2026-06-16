@@ -10,9 +10,6 @@ const router = express.Router();
 // get all groups associated with the member
 router.get("/", authenticate, groupController.getGroups);
 
-// fetch all the groups
-// router.get("/fetch-groups", authenticate, groupController.fetchGroups);
-
 // get groupBy Id
 router.get("/:groupId", authenticate, groupController.getGroupById);
 

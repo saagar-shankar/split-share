@@ -71,11 +71,11 @@ const createExpense = async (groupId, data, userId) => {
   });
 
   // give refernce of expense id to group schema
-  console.log("Assigned expense:", expense._id);
+  // console.log("Assigned expense:", expense._id);
 
   group.expenseId = expense._id;
   await group.save();
-  console.log("Group after save:", group);
+  // console.log("Group after save:", group);
 
   await expense.populate([
     {

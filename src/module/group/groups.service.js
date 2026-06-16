@@ -122,34 +122,10 @@ const deleteGroupById = async (groupId, userId) => {
   return await Group.findByIdAndDelete(groupId);
 };
 
-// // FETCH ALL GROUPS
-// const findAllGroups = async () => {
-//   // find all the groups
-//   const groups = await Group.find({})
-//     .populate("ownerId", "name email")
-//     .populate("members", "name email")
-//     .populate({
-//       path: "expenseId",
-//       populate: [
-//         {
-//           path: "paidBy",
-//           select: "name email",
-//         },
-//         {
-//           path: "settlements.userId",
-//           select: "name email",
-//         },
-//       ],
-//     });
-
-//   return groups;
-// };
-
 export {
   createGroupService,
   addMemberService,
   getAllGroupService,
   getGroupByIdservice,
   deleteGroupById,
-  // findAllGroups,
 };

@@ -25,10 +25,11 @@ const options = {
       },
     ],
     servers: [
-      {
-        url: "http://localhost:4000",
-        description: "Development Server",
-      },
+      // use this part for testing locally
+      // {
+      //   url: "http://localhost:4000",
+      //   description: "Development Server",
+      // },
       {
         url: "https://split-share-898m.onrender.com",
         description: "Production Server",

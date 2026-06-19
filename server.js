@@ -11,6 +11,7 @@ const startServer = async () => {
     console.log(
       `Server is running on  port : ${PORT} in ${process.env.NODE_ENV} Mode`,
     );
+    // console.log(`API Docs: http://localhost:${PORT}/api-docs`); //for testing purpose
   });
 };
 

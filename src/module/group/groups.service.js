@@ -2,6 +2,7 @@ import ApiError from "../../common/utils/api_errors.js";
 import Group from "./group.model.js";
 import User from "../../module/auth/auth.model.js";
 import Expense from "../expense/expense.model.js";
+import mongoose from "mongoose";
 
 // create group
 const createGroupService = async (data, userId) => {

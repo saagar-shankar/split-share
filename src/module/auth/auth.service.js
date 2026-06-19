@@ -268,7 +268,6 @@ const searchUserService = async (query) => {
 const getAllUsers = async (userId) => {
   // console.log("***** GET ALL USERS ROUTE HIT *****\n");
   const users = await User.find({}).select("name email");
-
   return users;
 };
 

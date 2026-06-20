@@ -48,6 +48,7 @@ const registerUser = async ({ name, email, password }) => {
     await sendVerificationEmail(email, rawToken);
   } catch (err) {
     console.error("Failed to send verification email:", err.message);
+    console.error(err);
   }
   // we will verify email later as we learn and move forward
 

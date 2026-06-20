@@ -12,6 +12,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// for testing email service
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("SMTP Verify Error:", error);
+  } else {
+    console.log("SMTP Server Ready");
+  }
+});
+
 const sendEmail = async (to, subject, html) => {
   await transporter.sendMail({
     from: `"${process.env.SMTP_FROM_NAME}" <${process.env.SMTP_FROM_EMAIL}>`,

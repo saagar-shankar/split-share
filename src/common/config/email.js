@@ -9,23 +9,15 @@ console.log("SMTP USER:", process.env.SMTP_USER);
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   // port: Number(process.env.SMTP_PORT) || 587,
-  port: Number(process.env.SMTP_PORT) || 465,
-  // secure: false, // Gmail + Port 587
-  secure: true, // Gmail + Port 587 20-june
+  // port: Number(process.env.SMTP_PORT) || 465,
+  port: Number(process.env.SMTP_PORT) || 2525,
+  secure: false, // Gmail + Port 587
+  // secure: true, // Gmail + Port 587 20-june
   family: 4, //updated on 19-june-2026
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-});
-
-// for testing email service
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("SMTP Verify Error:", error);
-  } else {
-    console.log("SMTP Server Ready");
-  }
 });
 
 const sendEmail = async (to, subject, html) => {

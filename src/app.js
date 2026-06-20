@@ -6,6 +6,8 @@ import expenseRoutes from "./module/expense/expense.routes.js";
 import ApiError from "./common/utils/api_errors.js";
 import errorHandler from "./common/middleware/error.middleware.js";
 
+import { sendVerificationEmail } from "./common/config/email.js";
+
 // added swagger docs on 18-june-2026
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./common/config/swagger.js";
@@ -40,5 +42,31 @@ app.use((req, res, next) => {
 
 // global error handler
 app.use(errorHandler);
+
+
+//testing for email sending service bugs
+
+app.get("/test-email", async (req, res) => {
+  try {
+    await sendVerificationEmail(
+      "sagarshankar444@gmail.com",
+      "test-token"
+    );
+
+    res.json({
+      success: true,
+      message: "Email sent",
+    });
+  } catch (error) {
+    console.error("TEST EMAIL ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      code: error.code,
+      response: error.response,
+    });
+  }
+});
 
 export default app;

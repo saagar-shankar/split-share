@@ -8,6 +8,7 @@ import errorHandler from "./common/middleware/error.middleware.js";
 
 import { sendVerificationEmail } from "./common/config/email.js";
 import dns from "node:dns/promises";
+import net from "node:net";
 
 // added swagger docs on 18-june-2026
 import swaggerUi from "swagger-ui-express";
@@ -36,20 +37,39 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.get("/smtp-debug", async (req, res) => {
-  try {
-    const result = await dns.lookup("smtp-relay.brevo.com");
+app.get("/smtp-port-test", async (req, res) => {
+  const socket = net.createConnection({
+    host: "smtp-relay.brevo.com",
+    port: Number(process.env.SMTP_PORT),
+  });
 
+  socket.setTimeout(10000);
+
+  socket.on("connect", () => {
     res.json({
       success: true,
-      result,
+      message: "TCP connection successful",
     });
-  } catch (error) {
+
+    socket.destroy();
+  });
+
+  socket.on("timeout", () => {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "TCP timeout",
     });
-  }
+
+    socket.destroy();
+  });
+
+  socket.on("error", (err) => {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+      code: err.code,
+    });
+  });
 });
 
 //testing for email sending service bugs

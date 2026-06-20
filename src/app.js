@@ -35,23 +35,11 @@ app.get("/health", (req, res) => {
   });
 });
 
-// invalid routes
-app.use((req, res, next) => {
-  next(ApiError.notFound("Route Not Found"));
-});
-
-// global error handler
-app.use(errorHandler);
-
-
 //testing for email sending service bugs
 
 app.get("/test-email", async (req, res) => {
   try {
-    await sendVerificationEmail(
-      "sagarshankar444@gmail.com",
-      "test-token"
-    );
+    await sendVerificationEmail("sagarshankar444@gmail.com", "test-token");
 
     res.json({
       success: true,
@@ -68,5 +56,13 @@ app.get("/test-email", async (req, res) => {
     });
   }
 });
+
+// invalid routes
+app.use((req, res, next) => {
+  next(ApiError.notFound("Route Not Found"));
+});
+
+// global error handler
+app.use(errorHandler);
 
 export default app;

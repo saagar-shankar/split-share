@@ -1,11 +1,16 @@
 import nodemailer from "nodemailer";
 
+// testing for SMTP failure
+console.log("SMTP HOST:", process.env.SMTP_HOST);
+console.log("SMTP PORT:", process.env.SMTP_PORT);
+console.log("SMTP USER:", process.env.SMTP_USER);
+
 // SMTP transporter — works with Mailtrap, Gmail, SendGrid, or any SMTP provider
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT) || 587,
   secure: false, // Gmail + Port 587
-  family: 4, //updated on 29-june-2026
+  family: 4, //updated on 19-june-2026
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -138,7 +143,6 @@ const sendResetPasswordEmail = async (email, token) => {
     `,
   );
 };
-
 
 export { sendVerificationEmail, sendResetPasswordEmail };
 

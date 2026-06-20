@@ -8,8 +8,10 @@ console.log("SMTP USER:", process.env.SMTP_USER);
 // SMTP transporter — works with Mailtrap, Gmail, SendGrid, or any SMTP provider
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false, // Gmail + Port 587
+  // port: Number(process.env.SMTP_PORT) || 587,
+  port: Number(process.env.SMTP_PORT) || 465,
+  // secure: false, // Gmail + Port 587
+  secure: true, // Gmail + Port 587 20-june
   family: 4, //updated on 19-june-2026
   auth: {
     user: process.env.SMTP_USER,

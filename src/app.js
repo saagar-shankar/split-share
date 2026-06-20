@@ -94,6 +94,46 @@ app.get("/test-email", async (req, res) => {
   }
 });
 
+app.get("/brevo-test", async (req, res) => {
+  try {
+    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+        "api-key": process.env.BREVO_API_KEY,
+      },
+      body: JSON.stringify({
+        sender: {
+          name: "Split Share",
+          email: process.env.SMTP_FROM_EMAIL,
+        },
+        to: [
+          {
+            email: "sagarshankar444@gmail.com",
+            name: "Sagar",
+          },
+        ],
+        subject: "Brevo API Test",
+        htmlContent: "<h1>Brevo API is working</h1>",
+      }),
+    });
+
+    const data = await response.json();
+
+    res.json({
+      success: true,
+      status: response.status,
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
 // invalid routes
 app.use((req, res, next) => {
   next(ApiError.notFound("Route Not Found"));

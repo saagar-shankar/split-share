@@ -1,29 +1,27 @@
-import nodemailer from "nodemailer";
-
-// testing for SMTP failure
-console.log("SMTP HOST:", process.env.SMTP_HOST);
-console.log("SMTP PORT:", process.env.SMTP_PORT);
-console.log("SMTP USER:", process.env.SMTP_USER);
-
-// SMTP transporter — works with Mailtrap, Gmail, SendGrid, or any SMTP provider
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false, // Gmail + Port 587
-  family: 4, //updated on 19-june-2026
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
 
 const sendEmail = async (to, subject, html) => {
-  await transporter.sendMail({
-    from: `"${process.env.SMTP_FROM_NAME}" <${process.env.SMTP_FROM_EMAIL}>`,
-    to,
-    subject,
-    html,
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: {
+        name: process.env.SMTP_FROM_NAME,
+        email: process.env.SMTP_FROM_EMAIL,
+      },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+    }),
   });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Brevo API Error: ${error}`);
+  }
 };
 
 const sendVerificationEmail = async (email, token) => {
@@ -136,14 +134,3 @@ const sendResetPasswordEmail = async (email, token) => {
 };
 
 export { sendVerificationEmail, sendResetPasswordEmail };
-
-// Previous Send Reset Password Email Service commented on 19-june-2026
-
-// const sendResetPasswordEmail = async (email, token) => {
-//   const url = `${process.env.CLIENT_URL}/reset-password/${token}`;
-//   await sendEmail(
-//     email,
-//     "Reset your password",
-//     `<h2>Password Reset</h2><p>Click <a href="${url}">here</a> to reset your password. This link expires in 15 minutes.</p>`,
-//   );
-// };

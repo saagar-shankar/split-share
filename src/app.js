@@ -6,10 +6,6 @@ import expenseRoutes from "./module/expense/expense.routes.js";
 import ApiError from "./common/utils/api_errors.js";
 import errorHandler from "./common/middleware/error.middleware.js";
 
-import { sendVerificationEmail } from "./common/config/email.js";
-import dns from "node:dns/promises";
-import net from "node:net";
-
 // added swagger docs on 18-june-2026
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./common/config/swagger.js";
@@ -35,103 +31,6 @@ app.get("/health", (req, res) => {
     success: true,
     message: "Split Share API is running",
   });
-});
-
-app.get("/smtp-port-test", async (req, res) => {
-  const socket = net.createConnection({
-    host: "smtp-relay.brevo.com",
-    port: Number(process.env.SMTP_PORT),
-  });
-
-  socket.setTimeout(10000);
-
-  socket.on("connect", () => {
-    res.json({
-      success: true,
-      message: "TCP connection successful",
-    });
-
-    socket.destroy();
-  });
-
-  socket.on("timeout", () => {
-    res.status(500).json({
-      success: false,
-      message: "TCP timeout",
-    });
-
-    socket.destroy();
-  });
-
-  socket.on("error", (err) => {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-      code: err.code,
-    });
-  });
-});
-
-//testing for email sending service bugs
-
-app.get("/test-email", async (req, res) => {
-  try {
-    await sendVerificationEmail("sagarshankar444@gmail.com", "test-token");
-
-    res.json({
-      success: true,
-      message: "Email sent",
-    });
-  } catch (error) {
-    console.error("TEST EMAIL ERROR:", error);
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-      code: error.code,
-      response: error.response,
-    });
-  }
-});
-
-app.get("/brevo-test", async (req, res) => {
-  try {
-    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-        "api-key": process.env.BREVO_API_KEY,
-      },
-      body: JSON.stringify({
-        sender: {
-          name: "Split Share",
-          email: process.env.SMTP_FROM_EMAIL,
-        },
-        to: [
-          {
-            email: "sagarshankar444@gmail.com",
-            name: "Sagar",
-          },
-        ],
-        subject: "Brevo API Test",
-        htmlContent: "<h1>Brevo API is working</h1>",
-      }),
-    });
-
-    const data = await response.json();
-
-    res.json({
-      success: true,
-      status: response.status,
-      data,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 });
 
 // invalid routes

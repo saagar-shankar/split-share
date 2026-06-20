@@ -7,6 +7,7 @@ import ApiError from "./common/utils/api_errors.js";
 import errorHandler from "./common/middleware/error.middleware.js";
 
 import { sendVerificationEmail } from "./common/config/email.js";
+import dns from "node:dns/promises";
 
 // added swagger docs on 18-june-2026
 import swaggerUi from "swagger-ui-express";
@@ -33,6 +34,22 @@ app.get("/health", (req, res) => {
     success: true,
     message: "Split Share API is running",
   });
+});
+
+app.get("/smtp-debug", async (req, res) => {
+  try {
+    const result = await dns.lookup("smtp-relay.brevo.com");
+
+    res.json({
+      success: true,
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 });
 
 //testing for email sending service bugs
